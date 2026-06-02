@@ -1,4 +1,4 @@
-import { syncContent } from '../server/engine/sync.js';
+import { syncContent } from '../src/server/engine/sync.js';
 
 async function run() {
   console.log('🔄 Synchronizing data to Astro content collections...');

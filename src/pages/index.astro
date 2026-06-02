@@ -1,11 +1,57 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const announcements = await getCollection('announcements');
+announcements.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+const latestAnnouncements = announcements.slice(0, 5);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Beranda">
+  <section>
+    <h1>Selamat Datang di Portal Sekolah</h1>
+    <p>Sistem Informasi Manajemen Sekolah berbasis web.</p>
+  </section>
+
+  <section>
+    <h2>Pengumuman Terbaru</h2>
+    {latestAnnouncements.length > 0 ? (
+      <ul>
+        {latestAnnouncements.map(item => (
+          <li>
+            <article>
+              <h3>{item.data.title}</h3>
+              <p>{item.data.content}</p>
+              <small>{new Date(item.data.date).toLocaleDateString('id-ID')}</small>
+            </article>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Belum ada pengumuman.</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    margin-bottom: 2rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  article {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+  }
+  article h3 {
+    margin: 0 0 0.25rem;
+  }
+  article small {
+    color: #666;
+  }
+</style>
