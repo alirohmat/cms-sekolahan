@@ -17,7 +17,7 @@ export async function verifyJWT(c, next) {
     }
     c.set('user', payload);
     return next();
-  } catch (error) {
+  } catch {
     return c.json({ error: 'Invalid token' }, 401);
   }
 }

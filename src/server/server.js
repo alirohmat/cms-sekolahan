@@ -3,6 +3,7 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import announcementRouter from './routes/announcements.js';
+import authRouter from './routes/auth.js';
 
 const app = new Hono();
 
@@ -10,6 +11,7 @@ const app = new Hono();
 app.use('/*', cors());
 
 // Routes
+app.route('/api/auth', authRouter);
 app.route('/api/announcements', announcementRouter);
 
 // Health Check
