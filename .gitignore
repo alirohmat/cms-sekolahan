@@ -25,8 +25,5 @@ pnpm-debug.log*
 .idea/
 
 # markdown files (except README.md)
-!main_plan.md
-!update.md
-!inspeksi.md
 *.md
 !README.md
