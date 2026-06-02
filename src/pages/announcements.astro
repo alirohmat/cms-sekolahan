@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('announcements');
+// Sort by date descending
+const sortedPosts = posts.sort((a, b) => 
+	new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+<BaseLayout title="Pengumuman Sekolah">
+	<h1>📢 Pengumuman Terbaru</h1>
+	<div class="grid">
+		{sortedPosts.length === 0 ? (
+			<p>Belum ada pengumuman saat ini.</p>
+		) : (
+			sortedPosts.map(post => (
+				<article class="card">
+					<h2>{post.data.title}</h2>
+					<time datetime={post.data.date}>
+						{new Date(post.data.date).toLocaleDateString('id-ID', {
+							day: 'numeric',
+							month: 'long',
+							year: 'numeric'
+						})}
+					</time>
+					<p>{post.data.content}</p>
+				</article>
+			))
+		)}
+	</div>
+
+	<style>
+		.grid {
+			display: grid;
+			gap: 1.5rem;
+			margin-top: 2rem;
+		}
+		.card {
+			background: white;
+			padding: 1.5rem;
+			border-radius: 8px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+		.card h2 {
+			margin-top: 0;
+			color: #2c3e50;
+		}
+		time {
+			display: block;
+			font-size: 0.85rem;
+			color: #888;
+			margin-bottom: 1rem;
+		}
+	</style>
+</BaseLayout>

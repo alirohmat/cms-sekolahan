@@ -1,0 +1,5 @@
+{
+  "admin": ["write:announcements", "read:announcements", "manage:users"],
+  "teacher": ["write:announcements", "read:announcements"],
+  "student": ["read:announcements"]
+}
