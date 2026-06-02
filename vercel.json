@@ -1,5 +1,15 @@
 {
   "buildCommand": "npm run sync && npm run build",
   "installCommand": "npm install",
-  "framework": "astro"
+  "framework": "astro",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/health", "destination": "/api/index" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs@20.x",
+      "maxDuration": 10
+    }
+  }
 }

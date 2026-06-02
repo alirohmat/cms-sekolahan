@@ -40,26 +40,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 </section>
 
 <script>
-const loginSection = document.getElementById('loginSection')!;
-const adminPanel = document.getElementById('adminPanel')!;
-const loginForm = document.getElementById('loginForm') as HTMLFormElement;
-const announcementForm = document.getElementById('announcementForm') as HTMLFormElement;
-const loginMessage = document.getElementById('loginMessage') as HTMLDivElement;
-const messageDiv = document.getElementById('message') as HTMLDivElement;
-const logoutBtn = document.getElementById('logoutBtn') as HTMLButtonElement;
+const loginSection = document.getElementById('loginSection');
+const adminPanel = document.getElementById('adminPanel');
+const loginForm = document.getElementById('loginForm');
+const announcementForm = document.getElementById('announcementForm');
+const loginMessage = document.getElementById('loginMessage');
+const messageDiv = document.getElementById('message');
+const logoutBtn = document.getElementById('logoutBtn');
 
 const token = localStorage.getItem('admin_token');
-const role = localStorage.getItem('admin_role');
 
 if (token) {
 loginSection.style.display = 'none';
 adminPanel.style.display = 'block';
 }
 
-loginForm?.addEventListener('submit', async (e: Event) => {
+loginForm.addEventListener('submit', async (e) => {
 e.preventDefault();
-const username = (document.getElementById('username') as HTMLInputElement).value;
-const password = (document.getElementById('password') as HTMLInputElement).value;
+const username = document.getElementById('username').value;
+const password = document.getElementById('password').value;
 
 try {
 const res = await fetch('/api/auth/login', {
@@ -76,7 +75,7 @@ loginSection.style.display = 'none';
 adminPanel.style.display = 'block';
 loginMessage.textContent = '';
 } else {
-loginMessage.textContent = `Error: ${data.error || 'Gagal login'}`;
+loginMessage.textContent = 'Error: ' + (data.error || 'Gagal login');
 loginMessage.className = 'message error';
 }
 } catch {
@@ -85,10 +84,10 @@ loginMessage.className = 'message error';
 }
 });
 
-announcementForm?.addEventListener('submit', async (e: Event) => {
+announcementForm.addEventListener('submit', async (e) => {
 e.preventDefault();
-const title = (document.getElementById('title') as HTMLInputElement).value;
-const content = (document.getElementById('content') as HTMLTextAreaElement).value;
+const title = document.getElementById('title').value;
+const content = document.getElementById('content').value;
 const token = localStorage.getItem('admin_token');
 
 if (!token) {
@@ -104,18 +103,18 @@ const res = await fetch('/api/announcements', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
-'Authorization': `Bearer ${token}`
+'Authorization': 'Bearer ' + token
 },
 body: JSON.stringify({ title, content })
 });
 
 if (res.ok) {
-messageDiv.textContent = '✅ Pengumuman berhasil dikirim!';
+messageDiv.textContent = '\u2705 Pengumuman berhasil dikirim!';
 messageDiv.className = 'message success';
 announcementForm.reset();
 } else {
 const err = await res.json();
-messageDiv.textContent = `Error: ${err.error || 'Gagal mengirim'}`;
+messageDiv.textContent = 'Error: ' + (err.error || 'Gagal mengirim');
 messageDiv.className = 'message error';
 }
 } catch {
@@ -124,7 +123,7 @@ messageDiv.className = 'message error';
 }
 });
 
-logoutBtn?.addEventListener('click', () => {
+logoutBtn.addEventListener('click', () => {
 localStorage.removeItem('admin_token');
 localStorage.removeItem('admin_role');
 loginSection.style.display = 'block';
