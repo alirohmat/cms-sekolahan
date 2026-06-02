@@ -1,7 +1,6 @@
 {
   "buildCommand": "npm run sync && npm run build",
   "framework": "astro",
-  "nodeVersion": "20.x",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/health", "destination": "/api/index" }
