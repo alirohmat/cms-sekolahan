@@ -25,7 +25,8 @@ router.post('/login', async (c) => {
     );
 
     return c.json({ token, role: user.role, username });
-  } catch {
+  } catch (err) {
+    console.error('Auth error:', err);
     return c.json({ error: 'Invalid request' }, 400);
   }
 });
